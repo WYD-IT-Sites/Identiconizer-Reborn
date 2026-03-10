@@ -1,8 +1,20 @@
-# Identiconizer!
+# Identiconizer-Reborn
 
 Identiconizer generates unique identicon avatars for contacts.
 
 This project started as a port of ChameleonOS' contact identicons feature, and has now been modernized for current Android versions.
+
+
+## What changed in v1.7
+
+### ✅ Rebrand
+- App renamed to **Identiconizer-Reborn**
+- Store title/metadata updated to match rebrand
+
+### ✅ Simplified standard size options
+- Replaced granular size picker with standard presets only:
+  - 128, 256, 512, 720, 1024, 1440
+- Removed oversized/low-value options to keep UX clean and practical
 
 ## What changed in v1.6
 
@@ -26,14 +38,14 @@ These are required by newer Android security/runtime rules and are the main reas
 ### ✅ UX/update changes
 - About screen now includes **Updated by: Liftedplane**
 - "Updated by" action now routes users to GitHub Issues for bug reports:
-  - https://github.com/WYD-IT-Sites/Identiconizer2026/issues
+  - https://github.com/WYD-IT-Sites/Identiconizer-Reborn/issues
 
 ### ✅ Image size support
 - Increased identicon size options to support larger outputs (including **1080×1080**)
 
 ## Releases
-- Latest release: **v1.6**
-- GitHub Releases: https://github.com/WYD-IT-Sites/Identiconizer2026/releases
+- Latest release: **v1.7**
+- GitHub Releases: https://github.com/WYD-IT-Sites/Identiconizer-Reborn/releases
 
 ## Legacy reference
 - Original XDA thread: http://forum.xda-developers.com/showthread.php?t=2718943

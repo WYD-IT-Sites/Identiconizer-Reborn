@@ -19,7 +19,7 @@
 <resources>
 
     <!-- General strings -->
-    <string name="app_name">Identiconizer!</string>
+    <string name="app_name">Identiconizer-Reborn</string>
     <string name="dialog_ok">Done</string>
     <string name="dialog_cancel">Cancel</string>
     <string name="button_select_all">Select all</string>
@@ -27,10 +27,10 @@
 
     <!-- Xposed & XposedMod.java -->
     <string name="xposed_description">Optional Xposed module. If enabled, Xposed will be used
-        instead of Identiconizer\'s service to directly create identicons for new contacts.
+        instead of Identiconizer-Reborn\'s service to directly create identicons for new contacts.
     </string>
-    <string name="xposed_error_title">Identiconizer! Xposed error</string>
-    <string name="xposed_error_text">Xposed module error. Disable Identiconizer! in the Xposed
+    <string name="xposed_error_title">Identiconizer-Reborn Xposed error</string>
+    <string name="xposed_error_text">Xposed module error. Disable Identiconizer-Reborn in the Xposed
         Installer and reboot.
     </string>
 
@@ -60,7 +60,7 @@
     <string name="identicons_contacts_ignore_visibility_summary">Ignore group visibility and custom
         filters. Useful for DAVdroid users
     </string>
-    <string name="about_title">About Identiconizer!</string>
+    <string name="about_title">About Identiconizer-Reborn</string>
     <!-- Shown in the "Identicon style" popup -->
     <string name="identicons_style_retro">Retro</string>
     <string name="identicons_style_contemporary">Contemporary</string>
@@ -91,7 +91,7 @@
     <string name="button_clear">Remove contact photos for selected contacts</string>
 
     <!-- Strings about SQL errors. Used in IdenticonCreationService.java & ErrorsListActivity.java -->
-    <string name="sql_error_notification_title">Identiconizer! error</string>
+    <string name="sql_error_notification_title">Identiconizer-Reborn error</string>
     <string name="sql_error_notification_text">Failed to set contact photo for %1$d contacts. Tap
         for details.
     </string>
@@ -106,7 +106,7 @@
     <!-- About screen (IdenticonSettings.java) -->
     <string name="about">About</string>
     <string name="support_title">Support</string>
-    <string name="support_summary">Identiconizer! by GermainZ</string>
+    <string name="support_summary">Identiconizer-Reborn by GermainZ</string>
     <string name="thanks">Thanks</string>
     <string name="chameleonos_title">ChameleonOS Open Source Project</string>
     <string name="chameleonos_summary">For code and resources used in this app</string>

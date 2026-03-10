@@ -8,8 +8,8 @@ android {
         applicationId "com.germainz.identiconizer"
         minSdkVersion 14
         targetSdkVersion 34
-        versionCode 16000
-        versionName "1.6"
+        versionCode 17000
+        versionName "1.7"
         vectorDrawables.useSupportLibrary = true
     }
 

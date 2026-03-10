@@ -151,6 +151,7 @@ public class IdenticonsSettings extends AppCompatPreferenceActivity implements O
         });
 
         final Preference sizePref = findPreference(Config.PREF_SIZE);
+        final int[] sizeOptions = new int[]{128, 256, 512, 720, 1024, 1440};
         final int identiconSize = mConfig.getIdenticonSize();
         sizePref.setSummary(identiconSize + " × " + identiconSize);
         sizePref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -158,25 +159,32 @@ public class IdenticonsSettings extends AppCompatPreferenceActivity implements O
             public boolean onPreferenceClick(Preference preference) {
                 final NumberPicker npView = new NumberPicker(IdenticonsSettings.this);
 
-                final int minValue = 96;
-                final int maxValue = Math.max(1080, getMaxContactPhotoSize());
-                final int step = 16;
-                String[] valueSet = new String[(maxValue - minValue) / step + 1];
-                for (int i = minValue; i <= maxValue; i += step) {
-                    valueSet[(i - minValue) / step] = i + " × " + i;
+                String[] valueSet = new String[sizeOptions.length];
+                for (int i = 0; i < sizeOptions.length; i++) {
+                    valueSet[i] = sizeOptions[i] + " × " + sizeOptions[i];
                 }
                 setDividerColor(npView, Color.LTGRAY);
                 npView.setMinValue(0);
                 npView.setMaxValue(valueSet.length - 1);
                 npView.setDisplayedValues(valueSet);
-                npView.setValue((mConfig.getIdenticonSize() - minValue) / step);
+
+                int selectedIndex = 0;
+                int smallestDelta = Integer.MAX_VALUE;
+                for (int i = 0; i < sizeOptions.length; i++) {
+                    int delta = Math.abs(mConfig.getIdenticonSize() - sizeOptions[i]);
+                    if (delta < smallestDelta) {
+                        smallestDelta = delta;
+                        selectedIndex = i;
+                    }
+                }
+                npView.setValue(selectedIndex);
 
                 new AlertDialog.Builder(IdenticonsSettings.this)
                         .setView(npView)
                         .setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                int value = npView.getValue() * step + minValue;
+                                int value = sizeOptions[npView.getValue()];
                                 mConfig.setIdenticonSize(value);
                                 sizePref.setSummary(value + " × " + value);
                             }
