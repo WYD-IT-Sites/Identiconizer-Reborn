@@ -30,8 +30,8 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.ContactsContract;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.content.LocalBroadcastManager;
+import androidx.core.app.NotificationCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.text.TextUtils;
 
 import com.germainz.identiconizer.Config;
@@ -205,7 +205,7 @@ public class IdenticonCreationService extends IntentService {
             manager.createNotificationChannel(chan);
         }
         Intent intent = new Intent(this, IdenticonsSettings.class);
-        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, intent, 0);
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
         return new NotificationCompat.Builder(this, TAG)
                 .setAutoCancel(false)
                 .setOngoing(true)
@@ -219,7 +219,7 @@ public class IdenticonCreationService extends IntentService {
 
     private void updateNotification(String title, String text) {
         Intent intent = new Intent(this, IdenticonsSettings.class);
-        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, intent, 0);
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
         NotificationManager nm =
                 (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
         @SuppressWarnings("deprecation")
@@ -239,7 +239,8 @@ public class IdenticonCreationService extends IntentService {
         Intent intent = new Intent(this, ErrorsListActivity.class);
         intent.putParcelableArrayListExtra("insertErrors", mInsertErrors);
         intent.putParcelableArrayListExtra("updateErrors", mUpdateErrors);
-        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, intent,
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
         String contentText = getString(R.string.sql_error_notification_text, mInsertErrors.size() + mUpdateErrors.size());
         Notification notice = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.ic_settings_identicons)

@@ -15,6 +15,11 @@
         android:key="version"
         android:title="@string/version" />
 
+    <Preference
+        android:key="updated_by"
+        android:title="@string/updated_by_title"
+        android:summary="@string/updated_by_summary" />
+
     <PreferenceCategory android:title="@string/thanks">
 
         <Preference

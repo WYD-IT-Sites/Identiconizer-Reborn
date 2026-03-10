@@ -25,7 +25,7 @@ import android.content.res.Resources;
 import android.content.res.XModuleResources;
 import android.database.sqlite.SQLiteDatabase;
 import android.provider.ContactsContract;
-import android.support.v4.app.NotificationCompat;
+import androidx.core.app.NotificationCompat;
 import android.text.TextUtils;
 
 import com.germainz.identiconizer.Config;

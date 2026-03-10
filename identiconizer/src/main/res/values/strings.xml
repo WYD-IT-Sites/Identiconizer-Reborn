@@ -189,5 +189,7 @@
 
     <string name="pref_title_vibrate">Vibrate</string>
     <string name="version">Version</string>
+    <string name="updated_by_title">Updated by</string>
+    <string name="updated_by_summary">Liftedplane • Submit issues on GitHub</string>
 
 </resources>

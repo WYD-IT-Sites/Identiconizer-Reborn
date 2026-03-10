@@ -32,8 +32,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.RemoteException;
 import android.provider.ContactsContract;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.content.LocalBroadcastManager;
+import androidx.core.app.NotificationCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.germainz.identiconizer.ContactInfo;
@@ -183,7 +183,7 @@ public class IdenticonRemovalService extends IntentService {
             manager.createNotificationChannel(chan);
         }
         Intent intent = new Intent(this, IdenticonsSettings.class);
-        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, intent, 0);
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
         return new NotificationCompat.Builder(this, TAG)
                 .setAutoCancel(false)
                 .setOngoing(true)
@@ -197,7 +197,7 @@ public class IdenticonRemovalService extends IntentService {
 
     private void updateNotification(String title, String text) {
         Intent intent = new Intent(this, IdenticonsSettings.class);
-        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, intent, 0);
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
         NotificationManager nm =
                 (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
         @SuppressWarnings("deprecation")

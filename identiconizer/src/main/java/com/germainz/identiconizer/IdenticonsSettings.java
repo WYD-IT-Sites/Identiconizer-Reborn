@@ -34,9 +34,9 @@ import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceScreen;
 import android.preference.SwitchPreference;
 import android.provider.ContactsContract;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.ActionBar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.appcompat.app.ActionBar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -85,6 +85,19 @@ public class IdenticonsSettings extends AppCompatPreferenceActivity implements O
                         String.format(Locale.ENGLISH, "%s (%d)", pInfo.versionName, pInfo.versionCode));
             } catch (PackageManager.NameNotFoundException e) {
                 e.printStackTrace();
+            }
+
+            Preference updatedByPref = findPreference("updated_by");
+            if (updatedByPref != null) {
+                updatedByPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                    @Override
+                    public boolean onPreferenceClick(Preference preference) {
+                        Intent issueIntent = new Intent(Intent.ACTION_VIEW,
+                                Uri.parse("https://github.com/WYD-IT-Sites/Identiconizer2026/issues"));
+                        startActivity(issueIntent);
+                        return true;
+                    }
+                });
             }
             return;
         }
@@ -146,7 +159,7 @@ public class IdenticonsSettings extends AppCompatPreferenceActivity implements O
                 final NumberPicker npView = new NumberPicker(IdenticonsSettings.this);
 
                 final int minValue = 96;
-                final int maxValue = getMaxContactPhotoSize();
+                final int maxValue = Math.max(1080, getMaxContactPhotoSize());
                 final int step = 16;
                 String[] valueSet = new String[(maxValue - minValue) / step + 1];
                 for (int i = minValue; i <= maxValue; i += step) {
