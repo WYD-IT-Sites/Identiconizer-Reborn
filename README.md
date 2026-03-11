@@ -2,49 +2,59 @@
 
 Identiconizer generates unique identicon avatars for contacts.
 
-This project started as a port of ChameleonOS' contact identicons feature, and has now been modernized for current Android versions.
+## Why this fork exists
 
+Identiconizer is an app I’ve used personally for years, and I wanted to keep it alive on modern Android.
 
-## What changed in v1.7
+This fork focuses on practical modernization: bringing compatibility up to date, improving usability (including stable Light/Dark theme support), and expanding creative output with new identicon styles.
 
-### ✅ Rebrand
-- App renamed to **Identiconizer-Reborn**
-- Store title/metadata updated to match rebrand
+Development and implementation were accelerated with help from **OpenClaw**.
 
-### ✅ Simplified standard size options
-- Replaced granular size picker with standard presets only:
+Most importantly: **full credit to GermainZ** for creating the original app and the foundation this project builds on.
+
+## What changed in v1.9.0
+
+### ✅ New identicon styles
+- Added **Hex mosaic (tri-color)**
+- Added **Voronoi mosaic**
+- Reordered style list for better discovery
+
+### ✅ Hex style subtype selector
+- Added Hex subtype options with previews:
+  - Tri-color symmetry
+  - Filled hex grid
+  - Variable hex radius
+
+### ✅ Quality improvements
+- **Dot Matrix** now scales properly at larger resolutions
+- **Spirograph** improved with size-aware stroke/path tuning
+- Better output quality across larger sizes (up to 1440)
+
+### ✅ Theme support + stability
+- Added app theme options:
+  - Follow system
+  - Light
+  - Dark
+- Implemented stable theme switching behavior
+
+### ✅ Branding/UI updates
+- New launcher icon (Hex Badge Cyber)
+- Updated About developer attribution to **Liftedplane**
+
+## Previous major updates
+
+### v1.7
+- Rebrand to **Identiconizer-Reborn**
+- Standardized size presets:
   - 128, 256, 512, 720, 1024, 1440
-- Removed oversized/low-value options to keep UX clean and practical
 
-## What changed in v1.6
-
-### ✅ Build + platform modernization
-- Migrated from legacy Android Support libraries to **AndroidX**
-- Updated Gradle/Android build tooling to a modern stack
-- Updated app to target modern Android SDK levels
-
-### ✅ Crash fixes on modern Android (why it was crashing)
-The app was crashing during identicon creation on Android 12+/14+ due to newer foreground service and PendingIntent requirements.
-
-Fixed by:
-- Adding required PendingIntent immutability flags (`FLAG_IMMUTABLE`)
-- Adding required foreground service permissions:
-  - `android.permission.FOREGROUND_SERVICE`
-  - `android.permission.FOREGROUND_SERVICE_DATA_SYNC`
-- Declaring `foregroundServiceType="dataSync"` on relevant services
-
-These are required by newer Android security/runtime rules and are the main reason old builds crash immediately when creation starts.
-
-### ✅ UX/update changes
-- About screen now includes **Updated by: Liftedplane**
-- "Updated by" action now routes users to GitHub Issues for bug reports:
-  - https://github.com/WYD-IT-Sites/Identiconizer-Reborn/issues
-
-### ✅ Image size support
-- Increased identicon size options to support larger outputs (including **1080×1080**)
+### v1.6
+- AndroidX migration + modernized build tooling
+- Crash fixes for modern Android service/pending-intent requirements
+- Updated About/Issue reporting links
 
 ## Releases
-- Latest release: **v1.7**
+- Latest release: **v1.9.0**
 - GitHub Releases: https://github.com/WYD-IT-Sites/Identiconizer-Reborn/releases
 
 ## Legacy reference
