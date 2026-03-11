@@ -60,6 +60,7 @@ public class ContactsListActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ThemeHelper.applyActivityTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contacts_list);
         mRecyclerView = findViewById(R.id.recycler_view);

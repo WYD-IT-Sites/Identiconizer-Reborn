@@ -27,6 +27,7 @@ public class ErrorsListActivity extends ListActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        ThemeHelper.applyActivityTheme(this);
         super.onCreate(savedInstanceState);
 
         TextView header = (TextView) getLayoutInflater().inflate(android.R.layout.simple_list_item_1, getListView(), false);

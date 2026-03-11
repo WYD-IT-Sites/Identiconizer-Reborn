@@ -41,6 +41,7 @@
     <!-- Identicon Appearance -->
     <string name="section_appearance">Identicons appearance</string>
     <string name="identicons_style_title">Style</string>
+    <string name="app_theme_title">App theme</string>
     <string name="identicons_size_title">Size</string>
     <string name="identicons_serif_title">Serif font</string>
     <string name="identicons_serif_summary">Use font with serif</string>
@@ -67,6 +68,15 @@
     <string name="identicons_style_spirograph">Spirograph</string>
     <string name="identicons_style_dotmatrix">Dot matrix</string>
     <string name="identicons_style_gmail">Gmail</string>
+    <string name="identicons_style_hex_symmetric">Hex mosaic (tri-color)</string>
+    <string name="identicons_style_voronoi_mosaic">Voronoi mosaic</string>
+    <string name="identicons_hex_type_title">Hex type</string>
+    <string name="identicons_hex_type_original">Tri-color symmetry</string>
+    <string name="identicons_hex_type_filled">Filled hex grid</string>
+    <string name="identicons_hex_type_variable">Variable hex radius</string>
+    <string name="app_theme_system">Follow system</string>
+    <string name="app_theme_light">Light</string>
+    <string name="app_theme_dark">Dark</string>
     <!-- Used in the Holo ColorPicker dialog -->
     <string name="saturation">Saturation</string>
     <string name="value">Value</string>
@@ -106,7 +116,7 @@
     <!-- About screen (IdenticonSettings.java) -->
     <string name="about">About</string>
     <string name="support_title">Developer</string>
-    <string name="support_summary">Nicholas - Who\'s Your Data</string>
+    <string name="support_summary">Liftedplane</string>
     <string name="thanks">Thanks</string>
     <string name="chameleonos_title">ChameleonOS Open Source Project</string>
     <string name="chameleonos_summary">For code and resources used in this app</string>

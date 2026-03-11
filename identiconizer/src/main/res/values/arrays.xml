@@ -20,6 +20,8 @@
     <string-array name="identicons_style_entries" translatable="false">
         <item>@string/identicons_style_retro</item>
         <item>@string/identicons_style_contemporary</item>
+        <item>@string/identicons_style_hex_symmetric</item>
+        <item>@string/identicons_style_voronoi_mosaic</item>
         <item>@string/identicons_style_spirograph</item>
         <item>@string/identicons_style_dotmatrix</item>
         <item>@string/identicons_style_gmail</item>
@@ -28,6 +30,8 @@
     <string-array name="identicons_style_values" translatable="false">
         <item>0</item>
         <item>1</item>
+        <item>5</item>
+        <item>6</item>
         <item>2</item>
         <item>3</item>
         <item>4</item>
@@ -36,9 +40,41 @@
     <array name="identicons_style_icons" translatable="false">
         <item>@drawable/ic_identicons_style_retro</item>
         <item>@drawable/ic_identicons_style_contemporary</item>
+        <item>@drawable/ic_identicons_style_hex_symmetric</item>
+        <item>@drawable/ic_identicons_style_voronoi_mosaic</item>
         <item>@drawable/ic_identicons_style_spirograph</item>
         <item>@drawable/ic_identicons_style_dotmatrix</item>
         <item>@drawable/ic_identicons_style_gmail</item>
     </array>
+
+    <string-array name="identicons_hex_type_entries" translatable="false">
+        <item>@string/identicons_hex_type_original</item>
+        <item>@string/identicons_hex_type_filled</item>
+        <item>@string/identicons_hex_type_variable</item>
+    </string-array>
+
+    <string-array name="identicons_hex_type_values" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <array name="identicons_hex_type_icons" translatable="false">
+        <item>@drawable/ic_identicons_hex_type_original</item>
+        <item>@drawable/ic_identicons_hex_type_filled</item>
+        <item>@drawable/ic_identicons_hex_type_variable</item>
+    </array>
+
+    <string-array name="app_theme_entries" translatable="false">
+        <item>@string/app_theme_system</item>
+        <item>@string/app_theme_light</item>
+        <item>@string/app_theme_dark</item>
+    </string-array>
+
+    <string-array name="app_theme_values" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
 
 </resources>

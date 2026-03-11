@@ -100,6 +100,14 @@ public abstract class AppCompatPreferenceActivity extends PreferenceActivity {
         getDelegate().invalidateOptionsMenu();
     }
 
+    protected boolean applyDayNightCompat() {
+        return getDelegate().applyDayNight();
+    }
+
+    protected void setLocalNightModeCompat(int mode) {
+        getDelegate().setLocalNightMode(mode);
+    }
+
     private AppCompatDelegate getDelegate() {
         if (mDelegate == null) {
             mDelegate = AppCompatDelegate.create(this, null);

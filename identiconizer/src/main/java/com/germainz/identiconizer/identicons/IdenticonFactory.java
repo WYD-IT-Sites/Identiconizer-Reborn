@@ -26,11 +26,19 @@ import com.germainz.identiconizer.Config;
  */
 public class IdenticonFactory {
 
+    public static final int[] SIZE_OPTIONS = new int[]{128, 256, 512, 720, 1024, 1440};
+
     public static final int IDENTICON_STYLE_RETRO = 0;
     public static final int IDENTICON_STYLE_CONTEMPORARY = 1;
     public static final int IDENTICON_STYLE_SPIROGRAPH = 2;
     public static final int IDENTICON_STYLE_DOTMATRIX = 3;
     public static final int IDENTICON_STYLE_GMAIL = 4;
+    public static final int IDENTICON_STYLE_HEX_SYMMETRIC = 5;
+    public static final int IDENTICON_STYLE_VORONOI_MOSAIC = 6;
+
+    public static final int HEX_STYLE_ORIGINAL = 0;
+    public static final int HEX_STYLE_FILLED_GRID = 1;
+    public static final int HEX_STYLE_VARIABLE_RADIUS = 2;
 
     /**
      * Get the appropriate identicon class based on the type passed in
@@ -42,11 +50,12 @@ public class IdenticonFactory {
      * @param length
      * @return
      */
-    public static Identicon makeIdenticon(int type, int size, int bgColor, boolean serif, int length) {
+    public static Identicon makeIdenticon(int type, int size, int bgColor, boolean serif, int length, int hexType) {
         Identicon.SIZE = size;
         Identicon.BG_COLOR = bgColor;
         Identicon.SERIF = serif;
         Identicon.LENGTH = length;
+        Identicon.HEX_TYPE = hexType;
         switch (type) {
             case IDENTICON_STYLE_RETRO:
                 return new RetroIdenticon();
@@ -58,9 +67,37 @@ public class IdenticonFactory {
                 return new DotMatrixIdenticon();
             case IDENTICON_STYLE_GMAIL:
                 return new LetterTile();
+            case IDENTICON_STYLE_HEX_SYMMETRIC:
+                return new HexSymmetricIdenticon();
+            case IDENTICON_STYLE_VORONOI_MOSAIC:
+                return new VoronoiMosaicIdenticon();
             default:
                 throw new IllegalArgumentException("Unkown identicon type.");
         }
+    }
+
+    public static int getMaxSizeForStyle(int type) {
+        switch (type) {
+            case IDENTICON_STYLE_SPIROGRAPH:
+            case IDENTICON_STYLE_DOTMATRIX:
+                return 1440;
+            default:
+                return 1440;
+        }
+    }
+
+    public static int clampSizeForStyle(int type, int requestedSize) {
+        int max = getMaxSizeForStyle(type);
+        int best = SIZE_OPTIONS[0];
+        for (int size : SIZE_OPTIONS) {
+            if (size <= max) {
+                best = size;
+            }
+            if (size >= requestedSize && size <= max) {
+                return size;
+            }
+        }
+        return Math.min(best, max);
     }
 
     /**
@@ -72,7 +109,7 @@ public class IdenticonFactory {
      */
     public static Identicon makeIdenticon(Context context) {
         Config config = Config.getInstance(context);
-        return makeIdenticon(config.getIdenticonStyle(), config.getIdenticonSize(), config.getIdenticonBgColor(), config.isIdenticonSerif(), config.getIdenticonLength());
+        return makeIdenticon(config.getIdenticonStyle(), config.getIdenticonSize(), config.getIdenticonBgColor(), config.isIdenticonSerif(), config.getIdenticonLength(), config.getHexType());
     }
 }
 

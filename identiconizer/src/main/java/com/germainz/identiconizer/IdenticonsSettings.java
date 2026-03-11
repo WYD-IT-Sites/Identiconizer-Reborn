@@ -29,6 +29,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceScreen;
@@ -63,12 +64,15 @@ public class IdenticonsSettings extends AppCompatPreferenceActivity implements O
     private static final String ACTION_SETTINGS_ABOUT = "com.germainz.identiconizer.SETTINGS_ABOUT";
     private SwitchPreference mEnabledPref;
     private ImageListPreference mStylePref;
+    private ListPreference mThemePref;
     private SwitchPreference mSerifPref;
+    private ImageListPreference mHexTypePref;
     private Preference mLengthPref;
     private Preference mBgColorPref;
     private Config mConfig;
 
     public void onCreate(Bundle savedInstanceState) {
+        ThemeHelper.applyActivityTheme(this);
         super.onCreate(savedInstanceState);
 
         ActionBar bar = getSupportActionBar();
@@ -123,6 +127,19 @@ public class IdenticonsSettings extends AppCompatPreferenceActivity implements O
         mStylePref.setValue(String.valueOf(style));
         updateStyleSummary(style);
 
+        mThemePref = (ListPreference) prefSet.findPreference(Config.PREF_THEME_MODE);
+        mThemePref.setOnPreferenceChangeListener(this);
+        int themeMode = mConfig.getThemeMode();
+        mThemePref.setValue(String.valueOf(themeMode));
+        updateThemeSummary(themeMode);
+
+        mHexTypePref = (ImageListPreference) prefSet.findPreference(Config.PREF_HEX_TYPE);
+        mHexTypePref.setOnPreferenceChangeListener(this);
+        int hexType = mConfig.getHexType();
+        mHexTypePref.setValue(String.valueOf(hexType));
+        updateHexTypeSummary(hexType);
+        mHexTypePref.setEnabled(style == IdenticonFactory.IDENTICON_STYLE_HEX_SYMMETRIC);
+
         Preference startServicePref = findPreference(Config.PREF_CREATE);
         startServicePref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
@@ -151,17 +168,18 @@ public class IdenticonsSettings extends AppCompatPreferenceActivity implements O
         });
 
         final Preference sizePref = findPreference(Config.PREF_SIZE);
-        final int[] sizeOptions = new int[]{128, 256, 512, 720, 1024, 1440};
         final int identiconSize = mConfig.getIdenticonSize();
-        sizePref.setSummary(identiconSize + " × " + identiconSize);
+        updateSizeSummary(sizePref, mConfig.getIdenticonStyle(), identiconSize);
         sizePref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 final NumberPicker npView = new NumberPicker(IdenticonsSettings.this);
+                final int style = mConfig.getIdenticonStyle();
+                final int[] allowedSizes = getAllowedSizesForStyle(style);
 
-                String[] valueSet = new String[sizeOptions.length];
-                for (int i = 0; i < sizeOptions.length; i++) {
-                    valueSet[i] = sizeOptions[i] + " × " + sizeOptions[i];
+                String[] valueSet = new String[allowedSizes.length];
+                for (int i = 0; i < allowedSizes.length; i++) {
+                    valueSet[i] = allowedSizes[i] + " × " + allowedSizes[i];
                 }
                 setDividerColor(npView, Color.LTGRAY);
                 npView.setMinValue(0);
@@ -170,8 +188,8 @@ public class IdenticonsSettings extends AppCompatPreferenceActivity implements O
 
                 int selectedIndex = 0;
                 int smallestDelta = Integer.MAX_VALUE;
-                for (int i = 0; i < sizeOptions.length; i++) {
-                    int delta = Math.abs(mConfig.getIdenticonSize() - sizeOptions[i]);
+                for (int i = 0; i < allowedSizes.length; i++) {
+                    int delta = Math.abs(mConfig.getIdenticonSize() - allowedSizes[i]);
                     if (delta < smallestDelta) {
                         smallestDelta = delta;
                         selectedIndex = i;
@@ -184,9 +202,9 @@ public class IdenticonsSettings extends AppCompatPreferenceActivity implements O
                         .setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                int value = sizeOptions[npView.getValue()];
+                                int value = allowedSizes[npView.getValue()];
                                 mConfig.setIdenticonSize(value);
-                                sizePref.setSummary(value + " × " + value);
+                                updateSizeSummary(sizePref, style, value);
                             }
                         })
                         .setNegativeButton(R.string.dialog_cancel, null)
@@ -365,12 +383,36 @@ public class IdenticonsSettings extends AppCompatPreferenceActivity implements O
             else if (!mConfig.isXposedModActive())
                 stopService(new Intent(this, ContactsObserverService.class));
             return true;
+        } else if (preference == mThemePref) {
+            int mode = Integer.valueOf((String) newValue);
+            updateThemeSummary(mode);
+            Intent restart = getPackageManager().getLaunchIntentForPackage(getPackageName());
+            if (restart != null) {
+                restart.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(restart);
+                finish();
+            } else {
+                recreate();
+            }
+            return true;
         } else if (preference == mStylePref) {
             int style = Integer.valueOf((String) newValue);
             updateStyleSummary(style);
             mBgColorPref.setEnabled(style != IdenticonFactory.IDENTICON_STYLE_GMAIL);
             mSerifPref.setEnabled(style == IdenticonFactory.IDENTICON_STYLE_GMAIL);
             mLengthPref.setEnabled(style == IdenticonFactory.IDENTICON_STYLE_GMAIL);
+            mHexTypePref.setEnabled(style == IdenticonFactory.IDENTICON_STYLE_HEX_SYMMETRIC);
+
+            int clampedSize = IdenticonFactory.clampSizeForStyle(style, mConfig.getIdenticonSize());
+            if (clampedSize != mConfig.getIdenticonSize()) {
+                mConfig.setIdenticonSize(clampedSize);
+            }
+            Preference sizePref = findPreference(Config.PREF_SIZE);
+            updateSizeSummary(sizePref, style, clampedSize);
+            return true;
+        } else if (preference == mHexTypePref) {
+            int hexType = Integer.valueOf((String) newValue);
+            updateHexTypeSummary(hexType);
             return true;
         }
         return false;
@@ -379,6 +421,16 @@ public class IdenticonsSettings extends AppCompatPreferenceActivity implements O
     private void updateStyleSummary(int value) {
         mStylePref.setSummary(mStylePref.getEntries()[mStylePref.findIndexOfValue("" + value)]);
         mConfig.setIdenticonStyle(value);
+    }
+
+    private void updateHexTypeSummary(int value) {
+        mHexTypePref.setSummary(mHexTypePref.getEntries()[mHexTypePref.findIndexOfValue("" + value)]);
+        mConfig.setHexType(value);
+    }
+
+    private void updateThemeSummary(int value) {
+        mThemePref.setSummary(mThemePref.getEntries()[mThemePref.findIndexOfValue("" + value)]);
+        mConfig.setThemeMode(value);
     }
 
     public int getMaxContactPhotoSize() {
@@ -390,6 +442,32 @@ public class IdenticonsSettings extends AppCompatPreferenceActivity implements O
             return c.getInt(0);
         } finally {
             c.close();
+        }
+    }
+
+    private int[] getAllowedSizesForStyle(int style) {
+        int maxSize = IdenticonFactory.getMaxSizeForStyle(style);
+        int count = 0;
+        for (int size : IdenticonFactory.SIZE_OPTIONS) {
+            if (size <= maxSize) count++;
+        }
+        int[] allowed = new int[count];
+        int i = 0;
+        for (int size : IdenticonFactory.SIZE_OPTIONS) {
+            if (size <= maxSize) {
+                allowed[i++] = size;
+            }
+        }
+        return allowed;
+    }
+
+    private void updateSizeSummary(Preference sizePref, int style, int size) {
+        if (sizePref == null) return;
+        int maxSize = IdenticonFactory.getMaxSizeForStyle(style);
+        if (maxSize < IdenticonFactory.SIZE_OPTIONS[IdenticonFactory.SIZE_OPTIONS.length - 1]) {
+            sizePref.setSummary(size + " × " + size + " (max " + maxSize + " for this style)");
+        } else {
+            sizePref.setSummary(size + " × " + size);
         }
     }
 

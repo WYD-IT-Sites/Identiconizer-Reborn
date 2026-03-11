@@ -26,7 +26,7 @@ import android.text.TextUtils;
 
 public class SpirographIdenticon extends Identicon {
 
-    private static final float STEP_SIZE = (float) Math.PI / 50;
+    private static final float BASE_STEP_SIZE = (float) Math.PI / 50;
     private static final float TWO_PI = (float) Math.PI * 2;
 
     @Override
@@ -61,6 +61,12 @@ public class SpirographIdenticon extends Identicon {
         boolean moveTo = true;
         int revolutions = Math.max(5, hash[3] >> 2);
         float t = 0f;
+        // Preserve existing look at smaller sizes and improve smoothness at larger sizes.
+        float stepSize = BASE_STEP_SIZE;
+        if (size > 256) {
+            stepSize = BASE_STEP_SIZE * (256f / size);
+            stepSize = Math.max((float) Math.PI / 400f, stepSize);
+        }
         float x, y, x2, y2, x3, y3;
         do {
             x = (float)((innerRadius + outerRadius) * Math.cos(t) +
@@ -86,7 +92,7 @@ public class SpirographIdenticon extends Identicon {
                 point2Path.lineTo(x2, y2);
                 point3Path.lineTo(x3, y3);
             }
-            t += STEP_SIZE;
+            t += stepSize;
         } while (t < TWO_PI * revolutions);
 
         Bitmap bmp = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
@@ -94,6 +100,7 @@ public class SpirographIdenticon extends Identicon {
         canvas.drawColor(BG_COLOR);
         Paint p = new Paint();
         p.setStyle(Paint.Style.STROKE);
+        p.setStrokeWidth(Math.max(1f, size / 128f));
         p.setAntiAlias(true);
         p.setFilterBitmap(true);
 

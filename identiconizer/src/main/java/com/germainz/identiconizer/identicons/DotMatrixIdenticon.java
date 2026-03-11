@@ -45,16 +45,24 @@ public class DotMatrixIdenticon extends Identicon {
         p.setColor(color);
         p.setStyle(Paint.Style.FILL_AND_STROKE);
         p.setAntiAlias(true);
+
+        final float cell = SIZE / 5f;
+        final float centerOffset = cell / 2f;
+        // Keep classic appearance around small sizes while scaling cleanly for larger outputs.
+        final float minRadius = Math.max(1f, cell * 0.10f);
+        final float maxRadius = cell * 0.42f;
+
         for (int y = 0; y < 5; y++) {
             for (int x = 0; x < 5; x++) {
                 final int index = y * 5 + x;
-                float radius;
+                final int nibble;
                 if ((index & 1) == 0) {
-                    radius = hash[index/2] & 0x0F;
+                    nibble = hash[index / 2] & 0x0F;
                 } else {
-                    radius = (hash[index/2] >> 4) & 0x0F;
+                    nibble = (hash[index / 2] >> 4) & 0x0F;
                 }
-                canvas.drawCircle(x * SIZE / 5 + SIZE / 10, y * SIZE / 5 + SIZE / 10, radius, p);
+                final float radius = minRadius + (nibble / 15f) * (maxRadius - minRadius);
+                canvas.drawCircle(x * cell + centerOffset, y * cell + centerOffset, radius, p);
             }
         }
         return bmp;

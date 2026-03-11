@@ -32,8 +32,10 @@ public class Config {
     public static final String PREF_STYLE = "identicons_style";
     public static final String PREF_SIZE = "identicons_size";
     public static final String PREF_BG_COLOR = "identicons_bg_color";
+    public static final String PREF_THEME_MODE = "app_theme_mode";
     public static final String PREF_SERIF = "identicons_serif";
     public static final String PREF_LENGTH = "identicons_length";
+    public static final String PREF_HEX_TYPE = "identicons_hex_type";
     public static final String PREF_CREATE = "identicons_create";
     public static final String PREF_REMOVE = "identicons_remove";
     public static final String PREF_CONTACTS_LIST = "identicons_contacts_list";
@@ -89,6 +91,14 @@ public class Config {
         return getInt(PREF_LENGTH, 1);
     }
 
+    public int getHexType() {
+        return Integer.parseInt(getString(PREF_HEX_TYPE, "0"));
+    }
+
+    public int getThemeMode() {
+        return Integer.parseInt(getString(PREF_THEME_MODE, "0"));
+    }
+
     public int getMaxContactID() {
         return getInt(PREF_MAX_CONTACT_ID, 0);
     }
@@ -119,6 +129,14 @@ public class Config {
 
     public void setIdenticonLength(int length) {
         mPreferences.edit().putInt(PREF_LENGTH, length).commit();
+    }
+
+    public void setHexType(int type) {
+        mPreferences.edit().putString(PREF_HEX_TYPE, Integer.toString(type)).commit();
+    }
+
+    public void setThemeMode(int mode) {
+        mPreferences.edit().putString(PREF_THEME_MODE, Integer.toString(mode)).commit();
     }
 
     public void setMaxContactID(int id) {

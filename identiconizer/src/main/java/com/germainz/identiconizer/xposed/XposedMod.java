@@ -73,7 +73,7 @@ public class XposedMod implements IXposedHookLoadPackage, IXposedHookInitPackage
                                         SQLiteDatabase db = (SQLiteDatabase) param.args[0];
                                         Identicon identicon = IdenticonFactory.makeIdenticon(CONFIG.getIdenticonStyle(),
                                                 CONFIG.getIdenticonSize(), CONFIG.getIdenticonBgColor(),
-                                                CONFIG.isIdenticonSerif(), CONFIG.getIdenticonLength());
+                                                CONFIG.isIdenticonSerif(), CONFIG.getIdenticonLength(), CONFIG.getHexType());
 
                                         ContentValues identiconValues = new ContentValues();
                                         identiconValues.put("mimetype_id", 10);

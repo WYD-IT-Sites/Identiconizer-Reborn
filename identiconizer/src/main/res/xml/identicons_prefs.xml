@@ -36,6 +36,14 @@
             app:entryImages="@array/identicons_style_icons"
             android:defaultValue="0"/>
 
+        <com.germainz.identiconizer.ImageListPreference
+            android:key="identicons_hex_type"
+            android:title="@string/identicons_hex_type_title"
+            android:entries="@array/identicons_hex_type_entries"
+            android:entryValues="@array/identicons_hex_type_values"
+            app:entryImages="@array/identicons_hex_type_icons"
+            android:defaultValue="0"/>
+
         <Preference
             android:key="identicons_bg_color"
             android:title="@string/identicons_bg_color_title"/>
@@ -92,6 +100,13 @@
                 android:targetPackage="com.germainz.identiconizer" />
 
         </Preference>
+
+        <ListPreference
+            android:key="app_theme_mode"
+            android:title="@string/app_theme_title"
+            android:entries="@array/app_theme_entries"
+            android:entryValues="@array/app_theme_values"
+            android:defaultValue="0"/>
     </PreferenceCategory>
 
 </PreferenceScreen>
